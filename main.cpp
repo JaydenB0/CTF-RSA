@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   try {
     namespace args = boost::program_options;
     args::options_description desc("Arguments");
-    desc.add_options()("help", "Print help message")(
+    desc.add_options()("help,h", "Print help message")(
         "message,m", args::value<ll>(&m),
         "Message")(",p", args::value<ll>(&p),
                    "P value")(",q", args::value<ll>(&q),

@@ -7,4 +7,4 @@ make:
 	$(CXX) $(SRC) -o ctfrsa $(LDLIBS)
 
 clean:
-	$(RM) $(SRC)
+	$(RM) ctfrsa
