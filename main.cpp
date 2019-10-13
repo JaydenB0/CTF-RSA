@@ -1,8 +1,9 @@
 #include <boost/program_options.hpp>
+#include <gmpxx.h>
 #include <iostream>
 using namespace std;
 
-typedef long long ll;
+using ll = mpz_t;
 namespace {
 const size_t ERROR_IN_CMD = 1;
 const size_t SUCCESS = 0;
@@ -11,6 +12,7 @@ const size_t ERROR_UNHANDLED_EXCEPTION = 2;
 
 int main(int argc, char **argv) {
   ll m, p, c, q, n, d, e, phi;
+  mpz_inits(m, p, c, q, n, d, e, phi, NULL);
   try {
     namespace args = boost::program_options;
     args::options_description desc("Arguments");
