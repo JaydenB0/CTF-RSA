@@ -1,10 +1,11 @@
 CXX=g++
-LDLIBS=-lboost_program_options -lgmpxx
-SRC=main.cpp
+LDLIBS=-lboost_program_options -lgmpxx -lgmp
+SRC=main.cpp calculations.cpp
+CPATH=includes
 RM=rm -f
 
 make:
-	$(CXX) $(SRC) -o ctfrsa $(LDLIBS)
+	$(CXX) $(SRC) -I$(CPATH) -o ctfrsa $(LDLIBS)
 
 clean:
 	$(RM) ctfrsa
