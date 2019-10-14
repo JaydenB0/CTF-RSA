@@ -10,7 +10,7 @@ CTF Framework for RSA Cryptography
 The purpose of this framework is to make solving cryptography problems involving RSA as easy and **intuitive** as possible.
 
 ### Build
-To compile this framework, run `build`
+To compile this framework, run `make`
 
 ### Running
 To run this framework, just execute the binary with the given integers as flags like:
