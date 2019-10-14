@@ -19,13 +19,32 @@ enum class missVars : uint32_t {
   mSet = (1 << 7)
 };
 
-template<class T> inline T operator~ (T a) { return (T)~(int)a; }
-template<class T> inline T operator| (T a, T b) { return (T)((int)a | (int)b); }
-template<class T> inline T operator& (T a, T b) { return (T)((int)a & (int)b); }
-template<class T> inline T operator^ (T a, T b) { return (T)((int)a ^ (int)b); }
-template<class T> inline T& operator|= (T& a, T b) { return (T&)((int&)a |= (int)b); }
-template<class T> inline T& operator&= (T& a, T b) { return (T&)((int&)a &= (int)b); }
-template<class T> inline T& operator^= (T& a, T b) { return (T&)((int&)a ^= (int)b); }
+template<class missVars> inline missVars operator~ (missVars a) { return (missVars)~(int)a; }
+template<class missVars> inline missVars operator| (missVars a, missVars b) { return (missVars)((int)a | (int)b); }
+template<class missVars> inline missVars operator& (missVars a, missVars b) { return (missVars)((int)a & (int)b); }
+template<class missVars> inline missVars operator^ (missVars a, missVars b) { return (missVars)((int)a ^ (int)b); }
+template<class missVars> inline missVars& operator|= (missVars& a, missVars b) { return (missVars&)((int&)a |= (int)b); }
+template<class missVars> inline missVars& operator&= (missVars& a, missVars b) { return (missVars&)((int&)a &= (int)b); }
+template<class missVars> inline missVars& operator^= (missVars& a, missVars b) { return (missVars&)((int&)a ^= (int)b); }
+
+void checkFlags(missVars &Flag, std::unique_ptr<Calculate> &c) {
+  if (mpz_cmp_d(c->p.get_mpz_t(), 0))
+    Flag |= missVars::pSet;
+  if (mpz_cmp_d(c->q.get_mpz_t(), 0))
+    Flag |= missVars::qSet;
+  if (mpz_cmp_d(c->n.get_mpz_t(), 0))
+    Flag |= missVars::nSet;
+  if (mpz_cmp_d(c->d.get_mpz_t(), 0))
+    Flag |= missVars::dSet;
+  if (mpz_cmp_d(c->c.get_mpz_t(), 0))
+      Flag |= missVars::cSet;
+  if (mpz_cmp_d(c->e.get_mpz_t(), 0))
+    Flag |= missVars::eSet;
+  if (mpz_cmp_d(c->phi.get_mpz_t(), 0))
+    Flag |= missVars::tSet;
+  if (mpz_cmp_d(c->m.get_mpz_t(), 0))
+    Flag |= missVars::mSet;
+}
 
 int main(int argc, char **argv) {
   try {
@@ -55,30 +74,21 @@ int main(int argc, char **argv) {
       auto iD = vm["-d"].as<string>();
       auto iE = vm["-e"].as<string>();
       auto iPhi = vm["-t"].as<string>();
+      calc = std::make_unique<Calculate>(iN, iM, iP, iC, iQ, iD, iE, iPhi);
       // Set flag time
       missVars Flag;
-      if (iP != "0")
-        Flag |= missVars::pSet;
-      if (iQ != "0")
-        Flag |= missVars::qSet;
-      if (iN != "0")
-        Flag |= missVars::nSet;
-      if (iD != "0")
-        Flag |= missVars::dSet;
-      if (iC != "0")
-        Flag |= missVars::cSet;
-      if (iE != "0")
-        Flag |= missVars::eSet;
-      if (iPhi != "0")
-        Flag |= missVars::pSet;
-      if (iM != "0")
-        Flag |= missVars::mSet;
+      checkFlags(Flag, calc);
+      cout << int(Flag) << endl;
 
-      calc = std::make_unique<Calculate>(iN, iM, iP, iC, iQ, iD, iE, iPhi);
-      
-      if (Flag == (missVars::pSet | missVars::qSet)){
-        calc->N_P_Q(); 
-        cout << calc->n << endl;
+      // Make the flag logic work
+      if ( (int(Flag) & (int(missVars::pSet) | int(missVars::qSet))) & int(missVars::nSet) ){
+        calc->N_P_Q();
+        cout << "N: " << calc->n << endl;
+        cout << "Totient: " << calc->phi << endl;
+      }
+      if (int(Flag) | int(missVars::nSet) | int(missVars::pSet) &~ int(missVars::qSet)) {
+        calc->Q_P_N();
+        cout << "Q: " << calc->q << endl;
       }
 
       if (vm.count("help")) {

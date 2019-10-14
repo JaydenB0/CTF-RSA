@@ -12,7 +12,8 @@ Calculate::Calculate(vs iN, vs iM, vs iP, vs iC, vs iQ, vs iD, vs iE, vs iPhi) {
 }
 
 // Calculate Euler's totient; given P, Q
-void Calculate::Eulers_P_Q(mt phi, mt p, mt q) {
+void Calculate::Eulers_P_Q() {
+  phi = (p-1) * (q-1);
 }
 
 // Calculate N; given P, Q
@@ -21,7 +22,9 @@ void Calculate::N_P_Q() {
 }
 
 // Calculate Q; given P, N
-void Calculate::Q_P_N(mt q, mt p, mt n) {}
+void Calculate::Q_P_N() {
+  mpz_fdiv_q(q.get_mpz_t(), n.get_mpz_t(), p.get_mpz_t());
+}
 
 // Calculate C; given M, E, N
 void Calculate::C_M_E_N(mt c, mt m, mt e, mt n) {}
