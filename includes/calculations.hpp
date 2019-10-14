@@ -5,7 +5,7 @@
 using namespace std;
 
 using vs = string;
-using mt = mpz_t;
+using mt = mpz_class;
 using ll = long long;
 class Calculate {
 public:

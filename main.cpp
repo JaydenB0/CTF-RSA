@@ -1,28 +1,31 @@
 #include "includes/main.hpp"
 using namespace std;
 
-using mt = mpz_t;
 namespace {
 const size_t ERROR_IN_CMD = 1;
 const size_t SUCCESS = 0;
 const size_t ERROR_UNHANDLED_EXCEPTION = 2;
 } // namespace
 
-enum class missingVariables : uint32_t {
-  p = (1 << 0),
-  q = (1 << 1),
-  n = (1 << 2),
-  t = (1 << 3),
-  c = (1 << 4),
-  d = (1 << 5),
-  e = (1 << 6),
-  m = (1 << 7)
+// 1 = given; 0 = missing
+enum class missVars : uint32_t {
+  pSet = (1 << 0),
+  qSet = (1 << 1),
+  nSet = (1 << 2),
+  tSet = (1 << 3),
+  cSet = (1 << 4),
+  dSet = (1 << 5),
+  eSet = (1 << 6),
+  mSet = (1 << 7)
 };
 
-constexpr enum missingVariables operator|(const enum missingVariables selfValue,
-                                          const enum missingVariables inValue) {
-  return (enum missingVariables)(uint32_t(selfValue) | uint32_t(inValue));
-}
+template<class T> inline T operator~ (T a) { return (T)~(int)a; }
+template<class T> inline T operator| (T a, T b) { return (T)((int)a | (int)b); }
+template<class T> inline T operator& (T a, T b) { return (T)((int)a & (int)b); }
+template<class T> inline T operator^ (T a, T b) { return (T)((int)a ^ (int)b); }
+template<class T> inline T& operator|= (T& a, T b) { return (T&)((int&)a |= (int)b); }
+template<class T> inline T& operator&= (T& a, T b) { return (T&)((int&)a &= (int)b); }
+template<class T> inline T& operator^= (T& a, T b) { return (T&)((int&)a ^= (int)b); }
 
 int main(int argc, char **argv) {
   try {
@@ -33,14 +36,14 @@ int main(int argc, char **argv) {
 
     desc.add_options()
       ("help,h", "Print help message")
-      (",m", args::value<string>()->multitoken()->default_value("0"), "Message")
-      (",p", args::value<string>()->multitoken()->default_value("0"), "P value")
-      (",q", args::value<string>()->multitoken()->default_value("0"), "Q value")
-      (",n", args::value<string>()->multitoken()->default_value("0"), "Modulus")
-      (",t", args::value<string>()->multitoken()->default_value("0"), "Totient value")
-      (",c", args::value<string>()->multitoken()->default_value("0"), "Cipher text")
-      (",d", args::value<string>()->multitoken()->default_value("0"),"D value")
-      (",e", args::value<string>()->multitoken()->default_value("0"),"exponent");
+      (",m", args::value<string>()->default_value("0"), "Message")
+      (",p", args::value<string>()->default_value("0"), "P value")
+      (",q", args::value<string>()->default_value("0"), "Q value")
+      (",n", args::value<string>()->default_value("0"), "Modulus")
+      (",t", args::value<string>()->default_value("0"), "Totient value")
+      (",c", args::value<string>()->default_value("0"), "Cipher text")
+      (",d", args::value<string>()->default_value("0"),"D value")
+      (",e", args::value<string>()->default_value("0"),"exponent");
     args::store(args::parse_command_line(argc, argv, desc), vm);
 
     try {
@@ -52,8 +55,31 @@ int main(int argc, char **argv) {
       auto iD = vm["-d"].as<string>();
       auto iE = vm["-e"].as<string>();
       auto iPhi = vm["-t"].as<string>();
+      // Set flag time
+      missVars Flag;
+      if (iP != "0")
+        Flag |= missVars::pSet;
+      if (iQ != "0")
+        Flag |= missVars::qSet;
+      if (iN != "0")
+        Flag |= missVars::nSet;
+      if (iD != "0")
+        Flag |= missVars::dSet;
+      if (iC != "0")
+        Flag |= missVars::cSet;
+      if (iE != "0")
+        Flag |= missVars::eSet;
+      if (iPhi != "0")
+        Flag |= missVars::pSet;
+      if (iM != "0")
+        Flag |= missVars::mSet;
 
       calc = std::make_unique<Calculate>(iN, iM, iP, iC, iQ, iD, iE, iPhi);
+      
+      if (Flag == (missVars::pSet | missVars::qSet)){
+        calc->N_P_Q(); 
+        cout << calc->n << endl;
+      }
 
       if (vm.count("help")) {
         cout << desc << endl;
