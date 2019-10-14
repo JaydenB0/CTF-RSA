@@ -79,9 +79,9 @@ int main(int argc, char **argv) {
       missVars Flag;
       checkFlags(Flag, calc);
       cout << int(Flag) << endl;
-
+      cout << ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::qSet) )) << endl;
       // Make the flag logic work
-      if ( (int(Flag) & (int(missVars::pSet) | int(missVars::qSet))) & int(missVars::nSet) ){
+      if ( !((int(Flag) & int(missVars::nSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::qSet) )) ){
         calc->N_P_Q();
         cout << "N: " << calc->n << endl;
         cout << "Totient: " << calc->phi << endl;
