@@ -23,11 +23,15 @@ void Calculate::N_P_Q() {
 
 // Calculate Q; given P, N
 void Calculate::Q_P_N() {
-  mpz_fdiv_q(q.get_mpz_t(), n.get_mpz_t(), p.get_mpz_t());
+  if (p != 0)
+    mpz_fdiv_q(q.get_mpz_t(), n.get_mpz_t(), p.get_mpz_t());
 }
 
 void Calculate::P_Q_N() {
-  mpz_fdiv_q(p.get_mpz_t(), n.get_mpz_t(), q.get_mpz_t());
+  if (q != 0 )
+    mpz_fdiv_q(p.get_mpz_t(), n.get_mpz_t(), q.get_mpz_t());
 }
 // Calculate C; given M, E, N
-void Calculate::C_M_E_N(mt c, mt m, mt e, mt n) {}
+void Calculate::C_M_E_N() {
+  mpz_powm(c.get_mpz_t(), m.get_mpz_t(), e.get_mpz_t(), n.get_mpz_t());
+}

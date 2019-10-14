@@ -15,5 +15,5 @@ public:
   void N_P_Q();
   void Q_P_N();
   void P_Q_N();
-  void C_M_E_N(mt c, mt m, mt e, mt n);
+  void C_M_E_N();
 };
