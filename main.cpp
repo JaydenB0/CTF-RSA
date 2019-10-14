@@ -44,6 +44,15 @@ void checkFlags(missVars &Flag, std::unique_ptr<Calculate> &c) {
     Flag |= missVars::tSet;
   if (mpz_cmp_d(c->m.get_mpz_t(), 0))
     Flag |= missVars::mSet;
+  cout << int(Flag) << endl;
+}
+
+int checkPQnotN(missVars& Flag) {
+  return !((int(Flag) & int(missVars::nSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::qSet)));
+}
+
+int checkPNnotQ(missVars& Flag) {
+  return !((int(Flag) & int(missVars::qSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::nSet)));
 }
 
 int main(int argc, char **argv) {
@@ -77,18 +86,18 @@ int main(int argc, char **argv) {
       calc = std::make_unique<Calculate>(iN, iM, iP, iC, iQ, iD, iE, iPhi);
       // Set flag time
       missVars Flag;
+
       checkFlags(Flag, calc);
-      cout << int(Flag) << endl;
-      cout << ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::qSet) )) << endl;
-      // Make the flag logic work
-      if ( !((int(Flag) & int(missVars::nSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::qSet) )) ){
+
+      if (checkPQnotN(Flag)){
         calc->N_P_Q();
-        cout << "N: " << calc->n << endl;
-        cout << "Totient: " << calc->phi << endl;
+        calc->Eulers_P_Q();
+        checkFlags(Flag, calc);
       }
-      if (int(Flag) | int(missVars::nSet) | int(missVars::pSet) &~ int(missVars::qSet)) {
+
+      if (checkPNnotQ(Flag)) {
         calc->Q_P_N();
-        cout << "Q: " << calc->q << endl;
+        checkFlags(Flag, calc);
       }
 
       if (vm.count("help")) {
