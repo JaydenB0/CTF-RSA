@@ -55,6 +55,21 @@ int checkPNnotQ(missVars& Flag) {
   return !((int(Flag) & int(missVars::qSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::nSet)));
 }
 
+int checkQNnotP(missVars& Flag) {
+  return !((int(Flag) & int(missVars::pSet))) && ((int(Flag) & int(missVars::qSet)) ^ (int(Flag) & int(missVars::nSet)));
+}
+
+void printAllVariables(std::unique_ptr<Calculate> &c){
+  cout << "P: " << calc->p << endl;
+  cout << "Q: " << calc->q << endl;
+  cout << "N: " << calc->n << endl;
+  cout << "Totient: " << calc->phi << endl;
+  cout << "D: " << calc->d << endl;
+  cout << "E: " << calc->e << endl;
+  cout << "C: " << calc->c << endl;
+  cout << "M: " << calc->m << endl;
+}
+
 int main(int argc, char **argv) {
   try {
 
@@ -93,13 +108,19 @@ int main(int argc, char **argv) {
         calc->N_P_Q();
         calc->Eulers_P_Q();
         checkFlags(Flag, calc);
+        printAllVariables(calc);
       }
 
       if (checkPNnotQ(Flag)) {
         calc->Q_P_N();
         checkFlags(Flag, calc);
+        printAllVariables(calc);
       }
-
+      if (checkQNnotP(Flag)){
+        calc->P_Q_N();
+        checkFlags(Flag, calc);
+        printAllVariables(calc);
+      }
       if (vm.count("help")) {
         cout << desc << endl;
         return SUCCESS;
