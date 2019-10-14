@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <bitset>
 
 #include "calculations.hpp"
 

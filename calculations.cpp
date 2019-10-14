@@ -9,10 +9,6 @@ Calculate::Calculate(vs iN, vs iM, vs iP, vs iC, vs iQ, vs iD, vs iE, vs iPhi) {
   auto d = mpz_class(iD);
   auto e = mpz_class(iE);
   auto phi = mpz_class(iPhi);
-
-  cout << n << endl;
-  n++;
-  cout << n << endl;
 }
 
 // Calculate Euler's totient; given P, Q
