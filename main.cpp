@@ -37,7 +37,7 @@ void checkFlags(missVars &Flag, std::unique_ptr<Calculate> &c) {
   if (mpz_cmp_d(c->d.get_mpz_t(), 0))
     Flag |= missVars::dSet;
   if (mpz_cmp_d(c->c.get_mpz_t(), 0))
-      Flag |= missVars::cSet;
+    Flag |= missVars::cSet;
   if (mpz_cmp_d(c->e.get_mpz_t(), 0))
     Flag |= missVars::eSet;
   if (mpz_cmp_d(c->phi.get_mpz_t(), 0))
@@ -48,11 +48,11 @@ void checkFlags(missVars &Flag, std::unique_ptr<Calculate> &c) {
 }
 
 int checkPQnotN(missVars& Flag) {
-  return !((int(Flag) & int(missVars::nSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::qSet)));
+  return !((int(Flag) & int(missVars::nSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::qSet)) == (int(missVars::pSet) | int(missVars::qSet)));
 }
 
 int checkPNnotQ(missVars& Flag) {
-  return !((int(Flag) & int(missVars::qSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::nSet)));
+  return !((int(Flag) & int(missVars::qSet))) && ((int(Flag) & int(missVars::pSet)) ^ (int(Flag) & int(missVars::nSet)) == (int(missVars::pSet) | int(missVars::nSet)));
 }
 
 int checkQNnotP(missVars& Flag) {
@@ -60,7 +60,7 @@ int checkQNnotP(missVars& Flag) {
 }
 
 int checkPQnotPhi(missVars& Flag) {
-  return !((int(Flag) & int(missVars::tSet))) && ((int(Flag) & int(missVars::qSet)) ^ (int(Flag) & int(missVars::pSet)));
+  return !((int(Flag) & int(missVars::tSet))) && ((int(Flag) & int(missVars::qSet)) ^ (int(Flag) & int(missVars::pSet)) == (int(missVars::qSet) | int(missVars::pSet)));
 }
 
 int checkMENnotC(missVars& Flag) {
@@ -111,9 +111,8 @@ int main(int argc, char **argv) {
       missVars Flag;
 
       checkFlags(Flag, calc);
-      printAllVariables(calc);
       cout << "CHECK:" << endl;
-      
+
       if (checkMENnotC(Flag)){
         calc->C_M_E_N();
         checkFlags(Flag, calc);
