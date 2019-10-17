@@ -28,23 +28,22 @@ template<class missVars> inline missVars& operator&= (missVars& a, missVars b) {
 template<class missVars> inline missVars& operator^= (missVars& a, missVars b) { return (missVars&)((int&)a ^= (int)b); }
 
 void checkFlags(missVars &Flag, std::unique_ptr<Calculate> &c) {
-  if (mpz_cmp_d(c->p.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->p.get_mpz_t(), 1))
     Flag |= missVars::pSet;
-  if (mpz_cmp_d(c->q.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->q.get_mpz_t(), 1))
     Flag |= missVars::qSet;
-  if (mpz_cmp_d(c->n.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->n.get_mpz_t(), 1))
     Flag |= missVars::nSet;
-  if (mpz_cmp_d(c->d.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->d.get_mpz_t(), 1))
     Flag |= missVars::dSet;
-  if (mpz_cmp_d(c->c.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->c.get_mpz_t(), 1))
     Flag |= missVars::cSet;
-  if (mpz_cmp_d(c->e.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->e.get_mpz_t(), 1))
     Flag |= missVars::eSet;
-  if (mpz_cmp_d(c->phi.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->phi.get_mpz_t(), 1))
     Flag |= missVars::tSet;
-  if (mpz_cmp_d(c->m.get_mpz_t(), 0))
+  if (mpz_cmp_d(c->m.get_mpz_t(), 1))
     Flag |= missVars::mSet;
-  cout << int(Flag) << endl;
 }
 
 int checkPQnotN(missVars& Flag) {
@@ -71,6 +70,10 @@ int checkCDNnotM(missVars& Flag){
   return !((int(Flag) & int(missVars::mSet))) && ((int(Flag) & int(missVars::cSet)) ^ (int(Flag) & int(missVars::dSet)));
 }
 
+int checkEPhinotD(missVars& Flag) {
+  return !((int(Flag) & int(missVars::dSet))) && ((int(Flag) & int(missVars::eSet)) ^ (int(Flag) & int(missVars::tSet)));
+}
+
 void printAllVariables(std::unique_ptr<Calculate> &c){
   cout << "P: " << calc->p << endl;
   cout << "Q: " << calc->q << endl;
@@ -91,14 +94,14 @@ int main(int argc, char **argv) {
 
     desc.add_options()
       ("help,h", "Print help message")
-      (",m", args::value<string>()->default_value("0"), "Message")
-      (",p", args::value<string>()->default_value("0"), "P value")
-      (",q", args::value<string>()->default_value("0"), "Q value")
-      (",n", args::value<string>()->default_value("0"), "Modulus")
-      (",t", args::value<string>()->default_value("0"), "Totient value")
-      (",c", args::value<string>()->default_value("0"), "Cipher text")
-      (",d", args::value<string>()->default_value("0"),"D value")
-      (",e", args::value<string>()->default_value("0"),"exponent");
+      (",m", args::value<string>()->default_value("1"), "Message")
+      (",p", args::value<string>()->default_value("1"), "P value")
+      (",q", args::value<string>()->default_value("1"), "Q value")
+      (",n", args::value<string>()->default_value("1"), "Modulus")
+      (",t", args::value<string>()->default_value("1"), "Totient value")
+      (",c", args::value<string>()->default_value("1"), "Cipher text")
+      (",d", args::value<string>()->default_value("1"),"D value")
+      (",e", args::value<string>()->default_value("1"),"exponent");
     args::store(args::parse_command_line(argc, argv, desc), vm);
 
     try {
@@ -120,33 +123,32 @@ int main(int argc, char **argv) {
       if (checkMENnotC(Flag)){
         calc->C_M_E_N();
         checkFlags(Flag, calc);
-        printAllVariables(calc);
       }
       if (checkPQnotN(Flag)){
         calc->N_P_Q();
         checkFlags(Flag, calc);
-        printAllVariables(calc);
       }
       if (checkPNnotQ(Flag)) {
         calc->Q_P_N();
         checkFlags(Flag, calc);
-        printAllVariables(calc);
       }
       if (checkQNnotP(Flag)){
         calc->P_Q_N();
         checkFlags(Flag, calc);
-        printAllVariables(calc);
       }
       if (checkPQnotPhi(Flag)){
         calc->Eulers_P_Q();
         checkFlags(Flag, calc);
-        printAllVariables(calc);
       }
       if (checkCDNnotM(Flag)){
         calc->M_C_D_N();
-	checkFlags(Flag, calc);
-	printAllVariables(calc);
+        checkFlags(Flag, calc);
       }
+      if (checkEPhinotD(Flag)){
+        calc->D_E_Phi();
+        checkFlags(Flag, calc);
+      }
+      printAllVariables(calc);
       if (vm.count("help")) {
         cout << desc << endl;
         return SUCCESS;
