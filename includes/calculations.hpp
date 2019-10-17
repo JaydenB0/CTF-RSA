@@ -16,4 +16,6 @@ public:
   void Q_P_N();
   void P_Q_N();
   void C_M_E_N();
+  void M_C_D_N();
+  void D_E_Phi();
 };

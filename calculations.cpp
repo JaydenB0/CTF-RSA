@@ -27,6 +27,7 @@ void Calculate::Q_P_N() {
     mpz_fdiv_q(q.get_mpz_t(), n.get_mpz_t(), p.get_mpz_t());
 }
 
+// Calculate P; given P, Q, N
 void Calculate::P_Q_N() {
   if (q != 0 )
     mpz_fdiv_q(p.get_mpz_t(), n.get_mpz_t(), q.get_mpz_t());
@@ -35,3 +36,14 @@ void Calculate::P_Q_N() {
 void Calculate::C_M_E_N() {
   mpz_powm(c.get_mpz_t(), m.get_mpz_t(), e.get_mpz_t(), n.get_mpz_t());
 }
+
+// Calculate M; given C, D, N;
+void Calculate::M_C_D_N() {
+  mpz_powm(m.get_mpz_t(), c.get_mpz_t(), d.get_mpz_t(), n.get_mpz_t());
+}
+
+// Calculate D; given E, phi
+void Calculate::D_E_Phi(){
+  mpz_invert(d.get_mpz_t(), e.get_mpz_t(), phi.get_mpz_t());
+}
+// QUADRATIC SIEVE //

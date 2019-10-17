@@ -67,6 +67,10 @@ int checkMENnotC(missVars& Flag) {
   return !((int(Flag) & int(missVars::cSet))) && ((int(Flag) & int(missVars::mSet)) ^ (int(Flag) & int(missVars::eSet)));
 }
 
+int checkCDNnotM(missVars& Flag){
+  return !((int(Flag) & int(missVars::mSet))) && ((int(Flag) & int(missVars::cSet)) ^ (int(Flag) & int(missVars::dSet)));
+}
+
 void printAllVariables(std::unique_ptr<Calculate> &c){
   cout << "P: " << calc->p << endl;
   cout << "Q: " << calc->q << endl;
@@ -138,7 +142,11 @@ int main(int argc, char **argv) {
         checkFlags(Flag, calc);
         printAllVariables(calc);
       }
-
+      if (checkCDNnotM(Flag)){
+        calc->M_C_D_N();
+	checkFlags(Flag, calc);
+	printAllVariables(calc);
+      }
       if (vm.count("help")) {
         cout << desc << endl;
         return SUCCESS;
