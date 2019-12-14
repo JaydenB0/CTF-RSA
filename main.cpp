@@ -140,12 +140,12 @@ int main(int argc, char **argv) {
         calc->Eulers_P_Q();
         checkFlags(Flag, calc);
       }
-      if (checkCDNnotM(Flag)){
-        calc->M_C_D_N();
-        checkFlags(Flag, calc);
-      }
       if (checkEPhinotD(Flag)){
         calc->D_E_Phi();
+        checkFlags(Flag, calc);
+      }
+      if (checkCDNnotM(Flag)){
+        calc->M_C_D_N();
         checkFlags(Flag, calc);
       }
       printAllVariables(calc);

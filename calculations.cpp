@@ -39,7 +39,7 @@ void Calculate::C_M_E_N() {
 
 // Calculate M; given C, D, N;
 void Calculate::M_C_D_N() {
-  mpz_powm(m.get_mpz_t(), c.get_mpz_t(), d.get_mpz_t(), n.get_mpz_t());
+  mpz_powm_sec(m.get_mpz_t(), c.get_mpz_t(), d.get_mpz_t(), n.get_mpz_t());
 }
 
 // Calculate D; given E, phi
