@@ -27,7 +27,7 @@ void Calculate::Q_P_N() {
     mpz_fdiv_q(q.get_mpz_t(), n.get_mpz_t(), p.get_mpz_t());
 }
 
-// Calculate P; given P, Q, N
+// Calculate P; given Q, N
 void Calculate::P_Q_N() {
   if (q != 0 )
     mpz_fdiv_q(p.get_mpz_t(), n.get_mpz_t(), q.get_mpz_t());
