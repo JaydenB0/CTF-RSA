@@ -22,6 +22,7 @@ To run this framework, just execute the binary with the given integers as flags 
 
 ```
 ./ctfrsa -p <INT> -q <INT>
+./ctfrsa -h
 ./ctfrsa -c <INT< -d <INT> -n <INT>
 ```
 
