@@ -26,4 +26,8 @@ To run this framework, just execute the binary with the given integers as flags 
 ./ctfrsa -c <INT< -d <INT> -n <INT>
 ```
 
+### TODO (AS OF 4/15/2020)
+- More efficient var checking
+- Faster and cleaner and modular code
+
 If you've found this framework useful, please star and pass the word on!
