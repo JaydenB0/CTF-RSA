@@ -5,7 +5,7 @@ CPATH=includes
 RM=rm -f
 
 make:
-	$(CXX) $(SRC) -I$(CPATH) -o ctfrsa $(LDLIBS)
+	$(CXX) $(SRC) -I$(CPATH) -o ./build/ctfrsa $(LDLIBS)
 
 clean:
 	$(RM) ctfrsa

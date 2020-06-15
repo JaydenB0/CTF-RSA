@@ -16,15 +16,18 @@ The purpose of this framework is to make solving cryptography problems involving
 
 ### Build
 To compile this framework, run `make`
+If you are using Docker, build the image using `docker build --pull --rm -f "Dockerfile" -t ctfrsa:latest "."`
 
 ### Running
-To run this framework, just execute the binary with the given integers as flags like:
+To run this framework, just execute the binary located in the build directory with the given integers as flags like:
 
 ```
 ./ctfrsa -p <INT> -q <INT>
 ./ctfrsa -h
 ./ctfrsa -c <INT< -d <INT> -n <INT>
 ```
+To run the binary in Docker, launch an interactive shell using `docker run -it --rm ctfrsa`
+
 
 ### TODO (AS OF 4/15/2020)
 - More efficient var checking
