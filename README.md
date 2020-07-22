@@ -15,8 +15,8 @@ CTF Framework for RSA Cryptography
 The purpose of this framework is to make solving cryptography problems involving RSA as easy and **intuitive** as possible.
 
 ### Build
-To compile this framework, run `make`
-If you are using Docker, build the image using `docker build --pull --rm -f "Dockerfile" -t ctfrsa:latest "."`
+Compile this framework by running `make` on the `makefile` located in the `src` directory.
+If you are using VSCode, run the build task while in the [developer container](https://code.visualstudio.com/docs/remote/containers).
 
 ### Running
 To run this framework, just execute the binary located in the build directory with the given integers as flags like:
