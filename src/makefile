@@ -1,6 +1,6 @@
 CXX=g++
 LDLIBS=-lboost_program_options -lgmpxx -lgmp
-SRC=main.cpp calculations.cpp
+SRC=main.cpp calculations.cpp variables.cpp
 CPATH=includes
 RM=rm -f
 DIRS=../build

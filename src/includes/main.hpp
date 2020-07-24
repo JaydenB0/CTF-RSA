@@ -9,5 +9,5 @@
 #include <bitset>
 
 #include "calculations.hpp"
-
+#include "variables.hpp"
 std::unique_ptr<Calculate> calc;
