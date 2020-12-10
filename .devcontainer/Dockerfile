@@ -14,4 +14,4 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-alpine-${VARIANT}
 # RUN apk update \
 #     && apk add --no-cache <your-package-list-here>
 RUN apk update \ 
-    && apk add --no-cache gmp-dev make g++ boost-program_options boost-dev
+    && apk add --no-cache gmp-dev make g++ cmake catch2

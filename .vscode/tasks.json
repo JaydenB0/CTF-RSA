@@ -5,14 +5,10 @@
     "tasks": [
         {
             "label": "Build",
-            "command": "make",
+            "command": "./build.sh",
             "options": {
-                "cwd": "${workspaceFolder}/src"
+                "cwd": "${workspaceFolder}"
             },
-            "args": [
-                "-f",
-                "${workspaceFolder}/src/makefile"
-            ],
             "detail": "Compile CTF-RSA",
             "problemMatcher": [],
             "group": {
