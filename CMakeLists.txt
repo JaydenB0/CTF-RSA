@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_subdirectory(src)
 
-option (BUILD_TESTING "Build tests" ON)
+option (BUILD_TESTING "Build tests" OFF)
 if (BUILD_TESTING AND (PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
   enable_testing()
   add_subdirectory(tests)

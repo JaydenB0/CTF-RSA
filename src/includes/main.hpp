@@ -3,11 +3,14 @@
 #include <gmpxx.h>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <algorithm>
 #include <iterator>
 #include <bitset>
 #include <tclap/CmdLine.h>
+#include <atomic>
+#include <condition_variable>
+#include <thread>
+
 using namespace std;
 
 //#include "calculations.hpp"
@@ -19,6 +22,8 @@ class ArgumentValues
         string valueArray[8];
         mpz_t pVal, qVal, nVal, phiVal, eVal, dVal, cVal, mVal;
     public:
+        std::bitset<8> currentFlag {};
+        std::bitset<8> initialFlag {};
         ArgumentValues(int argc, char** argv); // save arguments
         void parseArguments(int argc, char** argv); // retrieve values from CMD
         void convertArguments(string* valueArray, int arraySize); // convert values from string to mpz_t
