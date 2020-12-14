@@ -1,4 +1,5 @@
 #include "includes/main.hpp"
+#include "flagFunctions.cpp"
 #include <iostream>
 #include <tclap/CmdLine.h>
 #include <cstring>
@@ -14,6 +15,7 @@ int main(int argc, char** argv)
   //atomic<int> NbActiveThreads=2;
 
   ArgumentValues values(argc, argv);
+  StateFlag flag(values.valueArray);
   //std::thread t1(waits,1,20), t2(engine);
 }
 

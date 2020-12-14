@@ -19,13 +19,13 @@ using namespace std;
 class ArgumentValues
 {
     private:
-        string valueArray[8];
         mpz_t pVal, qVal, nVal, phiVal, eVal, dVal, cVal, mVal;
     public:
-        std::bitset<8> currentFlag {};
-        std::bitset<8> initialFlag {};
+        string valueArray[8];
         ArgumentValues(int argc, char** argv); // save arguments
         void parseArguments(int argc, char** argv); // retrieve values from CMD
         void convertArguments(string* valueArray, int arraySize); // convert values from string to mpz_t
+
+        
 };
 

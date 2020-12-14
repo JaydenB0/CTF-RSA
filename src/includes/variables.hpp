@@ -7,7 +7,17 @@
 
 using namespace std;
 
-class VarEngine {
+class StateFlag 
+{
+    public:
+        std::bitset<8> currentFlag { 0b00000000 };
+        std::bitset<8> initialFlag {};
+        bool checkModified();
+        void resetInitial();
+        StateFlag(string* valueArray);
+};
+
+/*class VarEngine {
     mpz_class intP, intQ, intN, intTotient, intE, intD, intC, intM;
     bitset<12> updated { 0b0000'0000'0001 };
     bitset<12> pSet { 0b0000'0000'0010 };
@@ -24,4 +34,4 @@ class VarEngine {
         bool checkModify();
         void requestInput();
         void initFlags();
-};
+};*/
